@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Milestone Report</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Milestone Report">
+  <meta name="author" content="Ian Meikle">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Milestone Report</h1>
+    <h2></h2>
+    <p>Ian Meikle<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Text Attributes</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The text file attributes are easily derived using Unix commands:</p>
+
+<pre><code class="r">system2(command=&#39;wc&#39;, args=c(&#39;-wl&#39;, &#39;../final/en_US/*&#39;), stdout=TRUE)[-4]
+</code></pre>
+
+<pre><code>## [1] &quot;  899288 37334690 ../final/en_US/en_US.blogs.txt&quot;  
+## [2] &quot; 1010242 34372720 ../final/en_US/en_US.news.txt&quot;   
+## [3] &quot; 2360148 30374206 ../final/en_US/en_US.twitter.txt&quot;
+</code></pre>
+
+<p>Here, the first column lists the number of lines, the second the number of words, 
+the third is the filepath.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Word Frequency</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Taking a representative sample of the blog dataset, removing punctuation and tokenising 
+allows a word frequency table to be created.</p>
+
+<pre><code class="r">head(blog_uni_dt)
+</code></pre>
+
+<pre><code>##    w_0 count
+## 1: the 36829
+## 2: and 21959
+## 3:  to 21625
+## 4:   a 17723
+## 5:  of 17397
+## 6:   i 15639
+</code></pre>
+
+<p>By inspection it is easy to see that only approximately 7000 words are needed to produce 
+ninety percent of the text. This will be used to optimise the words offered as options in the 
+final app.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Word Length Plot</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This histogram shows the word length distribution for those most common words in the blogs dataset.</p>
+
+<p><img src="assets/fig/wordLength-1.png" alt="plot of chunk wordLength"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Prediction Algorithm</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Text prediction based on single word frequency would be very simplistic. The next stage is 
+to calculate the frequency of two- and three-word combinations, know as bigrams and trigrams 
+respectively. The relative frequencies of these three <em>n-grams</em> 
+will form the basis of a <strong>backoff</strong> model with smoothing , allowing the prediction of the next word in a
+sequence based on how prevalent the last two words have been. Smoothing in this context refers to a 
+redistribution of probability, which does not restrict predictions to solely those phrases encountered i
+the training set.</p>
+
+<p>For reasons of optimisation, only those n-grams formed of the most common words will be included in 
+the text prediction app.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Shiny App</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The app will be provided on the Shiny platform. It will consist of a text box in which the user may type
+a phrase. On submission, the next word will be suggested from up to five options in a drop down list, 
+sorted in descending order of likelihood.</p>
+
+<p>Performance constraints allowing, the user will be able to choose which type of text they are 
+composing, chosen from blog, tweet, news item. The text prediction algorithm will then use the
+appropriate statistical model of n-gram frequency.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Text Attributes'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Word Frequency'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Word Length Plot'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Prediction Algorithm'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Shiny App'>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
